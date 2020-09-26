@@ -1,0 +1,41 @@
+version: "3"
+
+services:
+
+  app:
+    image: httpd:2.4
+    volumes:
+      - .:/var/www:ro
+      - ./docker/container/httpd/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
+      - ./docker/container/httpd/vhost.conf:/usr/local/apache2/conf/vhost.conf:ro
+    depends_on:
+      - php
+
+  php:
+    build: ./docker/container/php-fpm/7.4/symfony
+    volumes:
+      - .:/var/www
+    depends_on:
+      - db
+    # used during installation of an app
+    working_dir: /var/www
+    # used for an existing project (folder app exists)
+    # working_dir: /var/www/app
+
+  db:
+    image: mariadb:10.4.12
+    volumes:
+      - ./.var/mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: db
+      MYSQL_USER: tin
+      MYSQL_PASSWORD: tin
+  encore:
+    image: node:10-alpine
+    volumes:
+      - ./app:/var/www/html
+    ports:
+      - "${DEV_SERVER_PORT:-8080}:8080"
+    working_dir: /var/www/html
+    command: [ "yarn", "dev-server", "--host=0.0.0.0" ]

@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+
+  # add this if you want to use the apache to deliver your content
+  # if you prefer bin/symfony-serve do not enable this otherwise both systems try to allocate port 80
+  app:
+    ports:
+       - 80:80
+
+  # add this if you want to interact with your database from your system
+  # "mysql://root:root@127.0.0.1:3306/dis_bi" for root
+  # "mysql://dis_bi:dis_bi@127.0.0.1:3306/dis_bi" for dis_bi
+  db:
+    ports:
+      - 3306:3306
+  php:
+    working_dir: /var/www/app
