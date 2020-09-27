@@ -7,29 +7,24 @@ use ApiPlatform\Core\Validator\ValidatorInterface;
 use App\Dto\UserDto;
 use App\Entity\Address;
 use App\Entity\User;
+use App\Event\RegistrationEvent;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class UserInputDataTransformer implements DataTransformerInterface
 {
 
-    /**
-     * @var ValidatorInterface
-     */
     private ValidatorInterface $validator;
-    /**
-     * @var UserPasswordEncoderInterface
-     */
+
     private UserPasswordEncoderInterface $passwordEncoder;
 
-    /**
-     * UserInputDataTransformer constructor.
-     * @param ValidatorInterface $validator
-     * @param UserPasswordEncoderInterface $passwordEncoder
-     */
-    public function __construct(ValidatorInterface $validator, UserPasswordEncoderInterface $passwordEncoder)
+    private EventDispatcherInterface $eventDispatcher;
+
+    public function __construct(ValidatorInterface $validator, UserPasswordEncoderInterface $passwordEncoder, EventDispatcherInterface $eventDispatcher)
     {
         $this->validator = $validator;
         $this->passwordEncoder = $passwordEncoder;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -53,6 +48,8 @@ class UserInputDataTransformer implements DataTransformerInterface
 
         $user->setPassword($this->passwordEncoder->encodePassword($user, $object->getPassword()));
         $user->setAddress($address);
+
+        $this->eventDispatcher->dispatch(new RegistrationEvent($user));
 
         return $user;
     }
