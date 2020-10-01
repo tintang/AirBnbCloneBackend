@@ -1,0 +1,16 @@
+App\Entity\Listing:
+  attributes:
+    title:
+      groups: [ 'read', 'write' ]
+    price:
+      groups: [ 'read', 'write' ]
+    street:
+      groups: [ 'read', 'write' ]
+    city:
+      groups: [ 'read', 'write' ]
+    zipCode:
+      groups: [ 'read', 'write' ]
+    country:
+      groups: [ 'read', 'write' ]
+    provider:
+      groups: [ 'read' ]

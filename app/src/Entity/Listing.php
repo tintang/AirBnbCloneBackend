@@ -2,12 +2,13 @@
 
 namespace App\Entity;
 
+use App\Adapter\SetCurrentUserInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ListingRepository")
  */
-class Listing
+class Listing implements SetCurrentUserInterface
 {
 
     /**
@@ -28,6 +29,11 @@ class Listing
     private $price;
 
     /**
+     * @ORM\Column(type="string")
+     */
+    private $currency;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="listings")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -38,6 +44,11 @@ class Listing
      * @ORM\Embedded(class="App\Entity\Address")
      */
     private $address;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
 
     public function getId(): ?int
     {
@@ -97,4 +108,41 @@ class Listing
         return $this;
     }
 
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCurrency()
+    {
+        return $this->currency;
+    }
+
+    /**
+     * @param mixed $currency
+     */
+    public function setCurrency($currency): void
+    {
+        $this->currency = $currency;
+    }
+
+    public function setCurrentUser(User $user)
+    {
+        // TODO: Implement setCurrentUser() method.
+    }
+
+    public function getUser()
+    {
+        // TODO: Implement getUser() method.
+    }
 }

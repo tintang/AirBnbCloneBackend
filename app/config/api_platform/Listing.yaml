@@ -1,0 +1,9 @@
+App\Entity\Listing:
+  attributes:
+    denormalization_context: ['write']
+  collectionOperations:
+    post:
+      security: "is_granted('ROLE_USER')"
+    get: ~
+  itemOperations:
+    get: ~

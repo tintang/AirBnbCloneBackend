@@ -1,0 +1,7 @@
+App\Entity\Booking:
+  collectionOperations:
+    post:
+      input: App\Dto\BookingDto
+      security: 'is_granted("ROLE_USER")'
+  itemOperations:
+    get: ~

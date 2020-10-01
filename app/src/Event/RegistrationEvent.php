@@ -8,8 +8,6 @@ use Symfony\Contracts\EventDispatcher\Event;
 class RegistrationEvent extends Event
 {
 
-    const EVENT_NAME = 'registration';
-
     private User $user;
 
     /**

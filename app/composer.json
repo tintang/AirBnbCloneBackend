@@ -32,10 +32,11 @@
         "symfony/validator": "5.0.*",
         "symfony/web-link": "5.0.*",
         "symfony/webpack-encore-bundle": "^1.7",
-        "symfony/yaml": "5.0.*",
-        "symfonycasts/verify-email-bundle": "^1.0"
+        "symfony/yaml": "5.0.*"
     },
     "require-dev": {
+        "symfony/browser-kit": "5.0.*",
+        "symfony/css-selector": "5.0.*",
         "symfony/debug-pack": "*",
         "symfony/phpunit-bridge": "^5.1",
         "symfony/profiler-pack": "*",

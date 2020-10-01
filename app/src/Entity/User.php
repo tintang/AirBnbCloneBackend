@@ -16,7 +16,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class User implements UserInterface
 {
 
-    private const ROLE_USER = 'user';
+    private const ROLE_USER = 'ROLE_USER';
 
     /**
      * @ORM\Column(type="integer")

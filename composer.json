@@ -1,6 +1,0 @@
-{
-    "require": {
-        "symfony/apache-pack": "^1.0",
-        "symfonycasts/verify-email-bundle": "^1.0"
-    }
-}
