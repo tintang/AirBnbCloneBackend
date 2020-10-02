@@ -3,6 +3,7 @@
 namespace App\EventSubscriber;
 
 use App\Event\RegistrationEvent;
+use App\Services\Exceptions\AlreadyVerifiedException;
 use App\Services\RegistrationDOIMailingService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -24,7 +25,8 @@ class EmailNotificationEventSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @throws \App\Services\Exceptions\AlreadyVerifiedException
+     * @param RegistrationEvent $event
+     * @throws AlreadyVerifiedException
      */
     public function sendDOI(RegistrationEvent $event)
     {
