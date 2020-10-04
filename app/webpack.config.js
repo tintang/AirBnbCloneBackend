@@ -26,14 +26,12 @@ Encore
     .addEntry('app', './assets/js/app.js')
     //.addEntry('page1', './assets/js/page1.js')
     //.addEntry('page2', './assets/js/page2.js')
-
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
 
     // will require an extra script tag for runtime.js
     // but, you probably want this, unless you're building a single-page app
     .enableSingleRuntimeChunk()
-
     /*
      * FEATURE CONFIG
      *
@@ -53,6 +51,11 @@ Encore
         config.corejs = 3;
     })
 
+    .configureBabel((babelConfig) => {
+        babelConfig.presets.push('@babel/preset-flow');
+        babelConfig.plugins.push('babel-plugin-styled-components')
+    })
+
     // enables Sass/SCSS support
     //.enableSassLoader()
 
@@ -67,8 +70,8 @@ Encore
     //.autoProvidejQuery()
 
     // uncomment if you use API Platform Admin (composer req api-admin)
-    //.enableReactPreset()
-    //.addEntry('admin', './assets/js/admin.js')
+    .enableReactPreset()
+//.addEntry('admin', './assets/js/admin.js')
 ;
 
 module.exports = Encore.getWebpackConfig();

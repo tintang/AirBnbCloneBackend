@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Adapter\SetCurrentUserInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -49,6 +51,16 @@ class Listing implements SetCurrentUserInterface
      * @ORM\Column(type="text", nullable=true)
      */
     private $description;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Rating::class, mappedBy="listing")
+     */
+    private $ratings;
+
+    public function __construct()
+    {
+        $this->ratings = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -145,4 +157,18 @@ class Listing implements SetCurrentUserInterface
     {
         // TODO: Implement getUser() method.
     }
+
+    /**
+     * @return Collection|Rating[]
+     */
+    public function getRatings(): Collection
+    {
+        return $this->ratings;
+    }
+
+    public function getRatingScore(): ?float
+    {
+        return $this->getRatings()->count() > 0 ? round(array_sum($this->getRatings()->toArray()) / count($this->getRatings()), 2) : null;
+    }
+
 }

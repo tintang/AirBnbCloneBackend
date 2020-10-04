@@ -48,19 +48,21 @@ class ListingNormalizer implements ContextAwareNormalizerInterface, NormalizerAw
         $context[self::ALREADY_CALLED] = true;
 
         $currentRequest = $this->requestStack->getCurrentRequest();
-        if ($object->getPrice() !== null && $destCurrency = $currentRequest->headers->get('X-CURRENCY')) {
-            $object
-                ->setPrice(
-                    (string)$this->currencyConverterService->convertCurrency(
-                        (float)$object->getPrice(),
-                        $object->getCurrency(),
-                        $destCurrency
-                    )
-                )
-                ->setCurrency($destCurrency);
-        }
+        $data = $this->normalizer->normalize($object, $format, $context);
 
-        return $this->normalizer->normalize($object, $format, $context);
+
+        if ($data['price'] !== null && $destCurrency = $currentRequest->headers->get('X-CURRENCY')) {
+            $data['price'] =
+                (string)$this->currencyConverterService->convertCurrency(
+                    (float)$object->getPrice(),
+                    $object->getCurrency(),
+                    $destCurrency
+                );
+            $data['currency'] = $destCurrency;
+        }
+        $data['ratingScore'] = $object->getRatingScore();
+
+        return $data;
     }
 
 }

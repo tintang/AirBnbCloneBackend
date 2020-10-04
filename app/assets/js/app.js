@@ -7,8 +7,44 @@
 
 // any CSS you import will output into a single css file (app.css in this case)
 import '../css/app.css';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import styled from 'styled-components';
+import {UserProvider} from "./context/UserContext";
+import {Navbar} from "./components/Navbar";
 
-// Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
-// import $ from 'jquery';
+const AppBody = styled.section`
+    width: 100%;
+    height: 100%;
+`;
 
-console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
+class App extends React.Component {
+
+    constructor(props: P, context: any) {
+        super(props, context);
+        this.state = {
+            user: null,
+            setUser: this.setUser.bind(this),
+            isLoggedIn: false
+        }
+    }
+
+    setUser(user) {
+        this.setState({
+            user: user,
+            isLoggedIn: true
+        });
+    }
+
+    render() {
+        return (
+            <AppBody>
+                <UserProvider value={this.state}>
+                    <Navbar isLoggedIn={this.state.isLoggedIn}/>
+                </UserProvider>
+            </AppBody>
+        );
+    }
+}
+
+ReactDOM.render(<App/>, document.getElementById('main'));

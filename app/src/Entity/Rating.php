@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Adapter\SetCurrentUserInterface;
 use App\Repository\RatingRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ApiResource()
  * @ORM\Entity(repositoryClass=RatingRepository::class)
  */
-class Rating
+class Rating implements SetCurrentUserInterface
 {
     /**
      * @ORM\Id
@@ -41,7 +42,7 @@ class Rating
     private $creator;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Listing::class)
+     * @ORM\ManyToOne(targetEntity=Listing::class, inversedBy="ratings")
      * @ORM\JoinColumn(nullable=false)
      */
     private $listing;
@@ -110,4 +111,15 @@ class Rating
 
         return $this;
     }
+
+    public function setCurrentUser(User $user)
+    {
+        $this->creator = $user;
+    }
+
+    public function getUser()
+    {
+        return $this->creator;
+    }
+
 }
