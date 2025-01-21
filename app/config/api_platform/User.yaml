@@ -1,9 +1,0 @@
-resources:
-  App\Entity\User:
-    collectionOperations:
-      get: ~
-      post:
-        input: App\Dto\UserDto
-        output: App\Entity\User
-    itemOperations:
-      get: ~

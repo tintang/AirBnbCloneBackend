@@ -1,7 +1,0 @@
-App\Dto\UserDto:
-  properties:
-    email:
-      - NotBlank: ~
-      - NotNull: ~
-    password:
-      - NotBlank: ~
